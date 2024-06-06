@@ -6,11 +6,12 @@ import { useCart } from '@/hooks/use_cart'
 import SquareMinus from '@/components/icons/square_minus'
 import SquarePlus from '@/components/icons/square_plus'
 import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 const ProductDetails = () => {
   const router = useRouter()
   const { id } = router.query
-  const { addItem, setItemQuantity, cart } = useCart()
+  const { addItem,  cart } = useCart()
   const product = products.find((p) => p.id === parseInt(id))
 
   const [quantity, setQuantity] = useState(1)
@@ -36,6 +37,11 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     addItem(product, quantity) // 傳遞商品和數量
+    Swal.fire({
+      title:"成功加入購物車",
+      icon:"success",
+      confirmButtonColor:"#192a56"
+    })
     // 顯示加入購物車成功的提示或其他處理
   }
 
@@ -56,13 +62,13 @@ const ProductDetails = () => {
               價格: <span>{product.price}</span>
             </h5>
             <div className="d-flex">
-              <span>購買數量:</span>
-              <div className="unit-price text-center">
-                <button onClick={handleDecrease} className="no-border">
+              <span>購買數量 : </span>
+              <div className="ms-2">
+                <button onClick={handleDecrease} className="no-border btn">
                   <SquareMinus />
                 </button>
                 <span className="number">{quantity}</span>
-                <button onClick={handleIncrease} className="no-border">
+                <button onClick={handleIncrease} className="no-border btn">
                   <SquarePlus />
                 </button>
               </div>
